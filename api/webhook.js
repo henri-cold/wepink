@@ -6,6 +6,8 @@
 // IMPORTANTE: webhooks podem ser forjados. Antes de tratar como pago,
 // reconsultamos o status direto na VexoPay (server-to-server) usando ci/cs.
 
+const { sendFbEvent } = require('./_fbcapi');
+
 const VEXO_CI = process.env.VEXO_CI;
 const VEXO_CS = process.env.VEXO_CS;
 const BASE_URL = 'https://www.vexopay.com.br/api';
@@ -47,6 +49,22 @@ module.exports = async function handler(req, res) {
       //   - registrar venda / enviar para CRM / Utmify / planilha
       //   - liberar acesso, enviar e-mail, etc.
       console.log('[VexoPay] PAGO', { transactionId, amount: data.amount, paidAt: data.paidAt });
+
+      // Evento Purchase (Facebook Ads / Conversions API).
+      // Mesmo event_id do Pixel do navegador -> a Meta deduplica se os dois dispararem.
+      try {
+        await sendFbEvent({
+          eventName: 'Purchase',
+          eventId: 'purchase_' + transactionId,
+          value: Number(data.amount) || undefined,
+          currency: 'BRL',
+          orderId: transactionId,
+          email: data.payerEmail || (data.customer && data.customer.email),
+          firstName: data.payerName || (data.customer && data.customer.name),
+          externalId: data.payerDocument || (data.customer && data.customer.document),
+          actionSource: 'website'
+        });
+      } catch (_) { /* nunca deixa o webhook falhar por causa de tracking */ }
     } else if (event === 'payment.failed') {
       console.log('[VexoPay] FALHOU', { transactionId });
     } else if (event === 'payment.expired') {
