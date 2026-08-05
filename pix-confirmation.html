@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wepink • PIX Confirmado</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    background: #ffffff;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: #1f2937;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 16px;
+    min-height: 100vh;
+  }
+
+  .container {
+    max-width: 480px;
+    width: 100%;
+  }
+
+  .brand {
+    font-size: 32px;
+    font-weight: 800;
+    color: #ec0f6b;
+    letter-spacing: -0.5px;
+    margin: 16px 0 32px;
+    text-align: center;
+  }
+
+  .card {
+    width: 100%;
+    background: #ffffff;
+    border: 1px solid #f1f1f4;
+    border-radius: 18px;
+    box-shadow: 0 10px 30px rgba(17, 24, 39, 0.06);
+    padding: 32px 26px;
+    text-align: center;
+  }
+
+  .checkmark {
+    width: 60px;
+    height: 60px;
+    background: #fde7f0;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    font-size: 32px;
+  }
+
+  .badge {
+    display: inline-block;
+    background: #fde7f0;
+    color: #ec0f6b;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 6px 14px;
+    border-radius: 999px;
+    margin-bottom: 16px;
+  }
+
+  .title {
+    font-size: 24px;
+    font-weight: 800;
+    color: #111827;
+    margin: 0 0 8px;
+  }
+
+  .subtitle {
+    font-size: 14px;
+    color: #9aa0ad;
+    margin: 0 0 28px;
+  }
+
+  .info-box {
+    background: #f8f8fa;
+    border: 1px solid #ececef;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 24px;
+    text-align: left;
+  }
+
+  .info-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 14px;
+  }
+
+  .info-row:not(:last-child) {
+    padding-bottom: 14px;
+    border-bottom: 1px solid #ececef;
+  }
+
+  .info-label {
+    font-size: 13px;
+    color: #b06a8c;
+    font-weight: 600;
+  }
+
+  .info-value {
+    font-size: 15px;
+    font-weight: 700;
+    color: #111827;
+  }
+
+  .info-value.success {
+    color: #16a34a;
+  }
+
+  .info-value.highlight {
+    color: #ec0f6b;
+  }
+
+  .alert {
+    background: #f0fdf4;
+    border: 1px solid #dcfce7;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 24px;
+  }
+
+  .alert-text {
+    font-size: 13px;
+    color: #166534;
+    margin: 0;
+    font-weight: 500;
+  }
+
+  .steps {
+    margin-bottom: 24px;
+  }
+
+  .steps-title {
+    font-size: 12px;
+    color: #6b7280;
+    margin: 0 0 12px;
+    text-align: left;
+  }
+
+  .steps-list {
+    text-align: left;
+    font-size: 13px;
+    color: #4b5563;
+  }
+
+  .step {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .step:last-child {
+    margin-bottom: 0;
+  }
+
+  .step-number {
+    font-weight: 700;
+    color: #ec0f6b;
+    min-width: 20px;
+  }
+
+  .footer {
+    text-align: center;
+    font-size: 12px;
+    color: #b8bcc7;
+    margin-top: 24px;
+  }
+</style>
+</head>
+<body>
+  <div class="page">
+    <div class="container">
+      <div class="brand">Wepink</div>
+
+      <div class="card">
+        <div class="checkmark">✓</div>
+
+        <span class="badge">Pagamento Confirmado</span>
+
+        <h1 class="title">PIX será enviado</h1>
+        <p class="subtitle">Seu pagamento foi confirmado com sucesso</p>
+
+        <div class="info-box">
+          <div class="info-row">
+            <span class="info-label">Valor</span>
+            <span class="info-value">R$ 1.000,00</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Status</span>
+            <span class="info-value success">Pago</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">PIX será enviado</span>
+            <span class="info-value highlight">22:30 de hoje</span>
+          </div>
+        </div>
+
+        <div class="alert">
+          <p class="alert-text">✓ Seu PIX será transferido automaticamente no horário agendado. Sem necessidade de ação.</p>
+        </div>
+
+        <div class="steps">
+          <p class="steps-title">Próximos passos:</p>
+          <div class="steps-list">
+            <div class="step">
+              <span class="step-number">1</span>
+              <span>Seu pagamento já foi confirmado</span>
+            </div>
+            <div class="step">
+              <span class="step-number">2</span>
+              <span>Aguarde o envio do PIX em 22:30</span>
+            </div>
+            <div class="step">
+              <span class="step-number">3</span>
+              <span>Verifique seu saldo em breve</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer">© 2026 Wepink • Ambiente Seguro</div>
+    </div>
+  </div>
+</body>
+</html>
