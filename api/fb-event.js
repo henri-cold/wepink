@@ -12,7 +12,7 @@ module.exports = async function handler(req, res) {
 
   try {
     const body = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : (req.body || {});
-    const allowed = ['InitiateCheckout', 'Purchase'];
+    const allowed = ['PageView', 'ViewContent', 'AddToCart', 'InitiateCheckout', 'AddPaymentInfo', 'Purchase'];
     if (!allowed.includes(body.eventName)) {
       return res.status(400).json({ ok: false, error: 'eventName inválido' });
     }
@@ -26,6 +26,8 @@ module.exports = async function handler(req, res) {
       value: typeof body.value === 'number' ? body.value : Number(body.value),
       currency: body.currency || 'BRL',
       orderId: body.transactionId,
+      contentName: body.content_name,
+      contentType: body.content_type,
       externalId: body.cpf,
       email: body.email,
       firstName: body.firstName,

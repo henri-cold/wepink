@@ -8,7 +8,7 @@
 
 const crypto = require('crypto');
 
-const FB_PIXEL_ID = process.env.FB_PIXEL_ID || '1608877164200390';
+const FB_PIXEL_ID = process.env.FB_PIXEL_ID || '1029053233218244';
 const FB_ACCESS_TOKEN = process.env.FB_ACCESS_TOKEN;
 const FB_API_VERSION = process.env.FB_API_VERSION || 'v19.0';
 const FB_TEST_EVENT_CODE = process.env.FB_TEST_EVENT_CODE || '';
@@ -41,6 +41,8 @@ async function sendFbEvent(event) {
   const customData = { currency: event.currency || 'BRL' };
   if (typeof event.value === 'number' && !isNaN(event.value)) customData.value = event.value;
   if (event.orderId) customData.order_id = event.orderId;
+  if (event.contentName) customData.content_name = event.contentName;
+  if (event.contentType) customData.content_type = event.contentType;
 
   const payload = {
     data: [{
