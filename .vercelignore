@@ -1,0 +1,5 @@
+# Cópias de trabalho do checkout. Ficam no disco, mas não vão pro deploy:
+# estavam acessíveis publicamente e ainda disparavam o pixel antigo
+# (1029053233218244), o que sujava o rastreio da conta nova.
+checkout copy.html
+checkout antigo funfando.html

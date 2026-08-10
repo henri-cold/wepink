@@ -2,6 +2,8 @@
 // As credenciais ficam SOMENTE no servidor via Environment Variables (nunca no código/navegador).
 // Configure na Vercel: Settings > Environment Variables > VEXO_CI e VEXO_CS.
 
+const { sendFbEvent, requestContext, SITE_URL } = require('./_fbcapi');
+
 const VEXO_CI = process.env.VEXO_CI;
 const VEXO_CS = process.env.VEXO_CS;
 const BASE_URL = 'https://www.vexopay.com.br/api';
@@ -44,6 +46,43 @@ module.exports = async function handler(req, res) {
         success: false,
         error: (data && (data.error || data.message)) || 'Erro ao gerar PIX na VexoPay.'
       });
+    }
+
+    // AddPaymentInfo disparado no SERVIDOR (QR gerado). Esta rota é chamada
+    // direto pelo checkout, com nome neutro, então o adblock não bloqueia —
+    // ao contrário do rastreio do navegador. Mesmo event_id do Pixel/wpk.js
+    // ('addpaymentinfo_<txid>') para a Meta deduplicar quando os dois dispararem.
+    const tx = data && data.data && data.data.transactionId;
+    if (tx) {
+      const t = (body && body.tracking) || {};
+      const ctx = requestContext(req);
+      const np = String(t.name || payerName || '').trim().split(/\s+/);
+      try {
+        await sendFbEvent({
+          eventName: 'AddPaymentInfo',
+          eventId: 'addpaymentinfo_' + tx,
+          actionSource: 'website',
+          sourceUrl: t.sourceUrl || (req.headers && req.headers.referer) || SITE_URL,
+          value: amount,
+          currency: 'BRL',
+          orderId: tx,
+          contentName: t.content_name || 'Body Splash Liberte 200ml',
+          contentType: 'product',
+          contentId: t.content_id,
+          email: t.email,
+          cpf: t.cpf || payerDocument,
+          zip: t.cep,
+          firstName: np[0] || undefined,
+          lastName: np.length > 1 ? np.slice(1).join(' ') : undefined,
+          country: t.country || ctx.country,
+          anonId: t.anonId,
+          fbp: t.fbp,
+          fbc: t.fbc,
+          fbclid: t.fbclid,
+          ip: ctx.ip,
+          userAgent: ctx.userAgent
+        });
+      } catch (_) { /* rastreio nunca pode quebrar a geração do PIX */ }
     }
 
     return res.status(200).json(data);

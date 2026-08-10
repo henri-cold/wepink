@@ -4,6 +4,36 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Wepink • PIX Confirmado</title>
+<!-- Meta Pixel + Conversions API — implementação em /wpk.js -->
+<script src="/wpk.js"></script>
+<script>
+(function () {
+  // Purchase da tela de confirmação. O event_id precisa ser estável, senão
+  // cada refresh do cliente registra uma venda nova no Gerenciador.
+  var q = new URLSearchParams(location.search);
+  var txId = q.get("tx") || q.get("transactionId");
+  if (!txId) {
+    try {
+      txId = sessionStorage.getItem("wp_conf_tx");
+      if (!txId) { txId = "conf_" + Date.now() + "_" + Math.random().toString(36).slice(2, 10); }
+      sessionStorage.setItem("wp_conf_tx", txId);
+    } catch (e) { txId = "conf_" + Date.now(); }
+  }
+  var value = parseFloat(q.get("v") || "") ;
+  if (window.wpTrack) wpTrack("Purchase", {
+    transactionId: txId,
+    value: isFinite(value) && value > 0 ? value : 32.90,
+    currency: "BRL",
+    content_name: "Body Splash Liberte 200ml",
+    content_type: "product",
+    content_id: "wepink-liberte-200",
+    num_items: 1
+  });
+})();
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=918538257349766&ev=PageView&noscript=1"/></noscript>
+<!-- End Meta Pixel Code -->
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
 

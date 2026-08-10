@@ -6,3 +6,5 @@ node_modules/
 desktop.ini
 **/desktop.ini
 .DS_Store
+
+.vercel
