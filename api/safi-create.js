@@ -4,8 +4,8 @@
 
 const { sendFbEvent, requestContext, SITE_URL } = require('./_fbcapi');
 
-const SAFI_CI = process.env.SAFIPAY_CI;
-const SAFI_CS = process.env.SAFIPAY_CS;
+const SAFI_CI = process.env.SAFIPAY_CLIENT_ID;
+const SAFI_CS = process.env.SAFIPAY_CLIENT_SECRET;
 const BASE_URL = 'https://www.safipaybr.com';
 
 module.exports = async function handler(req, res) {
