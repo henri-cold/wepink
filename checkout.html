@@ -170,8 +170,12 @@ if (cepIn) cepIn.addEventListener('input', function () {
                 }
                 var d = res.j.data || {};
                 copyValue = d.copyPaste || '';
-                if (d.qrCodeBase64) qrImg.src = d.qrCodeBase64;
-                else if (d.qrCodeUrl) qrImg.src = d.qrCodeUrl;
+                if (d.qrCodeBase64) {
+                    qrImg.src = d.qrCodeBase64.startsWith('data:') ? d.qrCodeBase64 : 'data:image/png;base64,' + d.qrCodeBase64;
+                } else if (d.paymentLink) {
+                    // fallback: gera QR via API pública a partir do copyPaste
+                    qrImg.src = 'https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=' + encodeURIComponent(copyValue);
+                }
                 codeBox.textContent = copyValue;
                 show(pixStep);
                 var v = pixStep.querySelector('video');
