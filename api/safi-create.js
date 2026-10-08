@@ -4,8 +4,8 @@
 
 const { sendFbEvent, requestContext, SITE_URL } = require('./_fbcapi');
 
-const SAFI_CI = process.env.SAFIPAY_CLIENT_ID;
-const SAFI_CS = process.env.SAFIPAY_CLIENT_SECRET;
+const SAFI_CI = process.env.SAFIPAY_CI;
+const SAFI_CS = process.env.SAFIPAY_CS;
 const BASE_URL = 'https://www.safipaybr.com';
 
 module.exports = async function handler(req, res) {
@@ -15,7 +15,7 @@ module.exports = async function handler(req, res) {
   }
 
   if (!SAFI_CI || !SAFI_CS) {
-    return res.status(500).json({ success: false, error: 'Credenciais da SafiPay não configuradas (SAFIPAY_CLIENT_ID/SAFIPAY_CLIENT_SECRET).' });
+    return res.status(500).json({ success: false, error: 'Credenciais da SafiPay não configuradas (SAFIPAY_CI/SAFIPAY_CS).' });
   }
 
   try {

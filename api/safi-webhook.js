@@ -10,8 +10,8 @@
 const crypto = require('crypto');
 const { sendFbEvent, SITE_URL } = require('./_fbcapi');
 
-const SAFI_CI = process.env.SAFIPAY_CLIENT_ID;
-const SAFI_CS = process.env.SAFIPAY_CLIENT_SECRET;
+const SAFI_CI = process.env.SAFIPAY_CI;
+const SAFI_CS = process.env.SAFIPAY_CS;
 const SAFI_SECRET = process.env.SAFIPAY_WEBHOOK_SECRET; // whsec_... (chave da rota) ou 64 hex (conta)
 
 // Desliga o bodyParser do Vercel para esta rota — precisamos do corpo bruto.
