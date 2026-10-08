@@ -29,15 +29,14 @@ module.exports = async function handler(req, res) {
 
     if (!amount || amount < 1) return res.status(400).json({ success: false, error: 'Valor inválido (mínimo R$ 1,00).' });
     if (payerName.length < 3) return res.status(400).json({ success: false, error: 'Nome do pagador inválido.' });
-    if (payerDocument.length !== 11) return res.status(400).json({ success: false, error: 'CPF inválido.' });
+    // payerDocument é opcional na SafiPay — só envia se parecer CPF/CNPJ válido em comprimento.
+    const docValid = payerDocument.length === 11 || payerDocument.length === 14;
 
-    // Idempotency-Key: usa externalReference se vier, senão gera a partir do CPF+valor+minuto.
-    // Mesma chave + mesmo corpo = SafiPay devolve a cobrança original sem criar de novo.
     // Idempotency-Key: só letras, números, ":", "_" e "-" (sem ponto).
     // Converte o valor para centavos inteiros para evitar ponto decimal.
     const amountCents = Math.round(amount * 100);
     const idempotencyKey = externalReference ||
-      'wepink-' + payerDocument.slice(-4) + '-' + amountCents + '-' + Math.floor(Date.now() / 60000);
+      'wepink-' + (payerDocument.slice(-4) || '0000') + '-' + amountCents + '-' + Math.floor(Date.now() / 60000);
 
     const safiRes = await fetch(BASE_URL + '/api/gateway/pix-create', {
       method: 'POST',
@@ -51,7 +50,7 @@ module.exports = async function handler(req, res) {
         amount,
         description: description.slice(0, 180),
         payerName: payerName.slice(0, 120),
-        payerDocument,
+        payerDocument: docValid ? payerDocument : undefined,
         externalReference: externalReference.slice(0, 120) || undefined
       })
     });
