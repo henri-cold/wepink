@@ -50,7 +50,6 @@ module.exports = async function handler(req, res) {
         amount,
         description: description.slice(0, 180),
         payerName: payerName.slice(0, 120),
-        payerDocument: docValid ? payerDocument : undefined,
         externalReference: externalReference.slice(0, 120) || undefined
       })
     });
