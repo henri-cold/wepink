@@ -33,8 +33,11 @@ module.exports = async function handler(req, res) {
 
     // Idempotency-Key: usa externalReference se vier, senão gera a partir do CPF+valor+minuto.
     // Mesma chave + mesmo corpo = SafiPay devolve a cobrança original sem criar de novo.
+    // Idempotency-Key: só letras, números, ":", "_" e "-" (sem ponto).
+    // Converte o valor para centavos inteiros para evitar ponto decimal.
+    const amountCents = Math.round(amount * 100);
     const idempotencyKey = externalReference ||
-      'wepink-' + payerDocument.slice(-4) + '-' + amount + '-' + Math.floor(Date.now() / 60000);
+      'wepink-' + payerDocument.slice(-4) + '-' + amountCents + '-' + Math.floor(Date.now() / 60000);
 
     const safiRes = await fetch(BASE_URL + '/api/gateway/pix-create', {
       method: 'POST',
