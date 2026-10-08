@@ -158,7 +158,7 @@ if (cepIn) cepIn.addEventListener('input', function () {
             if (cpf.length !== 11) { err('Informe um CPF válido (11 dígitos).'); return; }
 
             show(loadStep);
-            fetch('/api/pix-create', {
+            fetch('/api/safi-create', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ amount: AMOUNT, payerName: nome, payerDocument: cpf, description: 'Produto Digital', tracking: trackingContext() })
@@ -270,7 +270,7 @@ if (cepIn) cepIn.addEventListener('input', function () {
         function startPolling(txId) {
             if (pollTimer) clearInterval(pollTimer);
             pollTimer = setInterval(function () {
-                fetch('/api/pix-status', {
+                fetch('/api/safi-status', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ transactionId: txId, tracking: trackingContext() })
